@@ -1,20 +1,36 @@
-local common = require "sha1.common"
+DebugPrint("Starting init.lua")
 
-local sha1 = {
-   -- Meta fields retained for compatibility.
-   _VERSION     = "sha.lua 0.6.0",
-   _URL         = "https://github.com/mpeterv/sha1",
-   _DESCRIPTION = [[
+local sha1, common, ops
+
+-- Check whether we're in World of Warcraft or not.
+if WOW_PROJECT_ID then
+   -- The library is created via the Create-Lib file, and common functions are loaded already.
+   sha1 = LibStub("sha1")
+   if not sha1 or sha1.sha1 then return end
+   common = sha1.common
+else
+	sha1 = {}
+   common = require "sha1.common"
+end
+DebugPrint("in init.lua, sha1 is valid, proceeding")
+
+
+-- Meta fields retained for compatibility.
+sha1._VERSION     = "sha.lua 0.6.0"
+sha1._URL         = "https://github.com/mpeterv/sha1"
+sha1._DESCRIPTION = [[
 SHA-1 secure hash and HMAC-SHA1 signature computation in Lua,
 using bit and bit32 modules and Lua 5.3 operators when available
 and falling back to a pure Lua implementation on Lua 5.1.
 Based on code orignally by Jeffrey Friedl and modified by
-Eike Decker and Enrique García Cota.]],
-   _LICENSE = [[
+Eike Decker and Enrique García Cota. Converted to a WoW 
+addon-compatible format by KyrosKrane Sylvanblade.]]
+sha1._LICENSE = [[
 MIT LICENSE
 
 Copyright (c) 2013 Enrique García Cota, Eike Decker, Jeffrey Friedl
 Copyright (c) 2018 Peter Melnichenko
+Copyright (c) 2019 KyrosKrane Sylvanblade
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the
@@ -34,23 +50,29 @@ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
 CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.]]
-}
 
 sha1.version = "0.6.0"
 
-local function choose_ops()
-   if _VERSION:find("5%.3") then
-      return "lua53_ops"
-   elseif pcall(require, "bit") then
-      return "bit_ops"
-   elseif pcall(require, "bit32") then
-      return "bit32_ops"
-   else
-      return "pure_lua_ops"
-   end
-end
 
-local ops = require("sha1." .. choose_ops())
+if not WOW_PROJECT_ID then
+   local function choose_ops()
+      if _VERSION:find("5%.3") then
+         return "lua53_ops"
+      elseif pcall(require, "bit") then
+         return "bit_ops"
+      elseif pcall(require, "bit32") then
+         return "bit32_ops"
+      else
+         return "pure_lua_ops"
+      end -- if
+   end -- choose_ops()
+
+   ops = require("sha1." .. choose_ops())
+else
+   -- WoW ops are already loaded via a prior file
+   ops = sha1.ops
+end -- if
+
 local uint32_lrot = ops.uint32_lrot
 local byte_xor = ops.byte_xor
 local uint32_xor_3 = ops.uint32_xor_3
@@ -71,6 +93,8 @@ local function hex_to_binary(hex)
       return schar(tonumber(hexval, 16))
    end))
 end
+
+DebugPrint("reached point of creating sha1()")
 
 -- Calculates SHA1 for a string, returns it encoded as 40 hexadecimal digits.
 function sha1.sha1(str)
@@ -156,8 +180,10 @@ function sha1.sha1(str)
       h4 = (h4 + e) % 4294967296
    end
 
-   return sformat("%08x%08x%08x%08x%08x", h0, h1, h2, h3, h4)
+   return sformat("%s%s%s%s%s", common.w32_to_hexstring(h0), common.w32_to_hexstring(h1), common.w32_to_hexstring(h2), common.w32_to_hexstring(h3), common.w32_to_hexstring(h4))
 end
+DebugPrint("after creating sha1()")
+
 
 function sha1.binary(str)
    return hex_to_binary(sha1.sha1(str))
@@ -192,4 +218,8 @@ end
 
 setmetatable(sha1, {__call = function(_, str) return sha1.sha1(str) end})
 
-return sha1
+if not WOW_PROJECT_ID then
+   -- The setmetatable call seems to throw WoW off, so restrict it to the non-WoW environment
+   return sha1
+end
+DebugPrint("At end of init.lua")
