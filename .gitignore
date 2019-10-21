@@ -1,2 +1,6 @@
 luacov.stats.out
 luacov.report.out
+
+
+# backup files
+*.bak
