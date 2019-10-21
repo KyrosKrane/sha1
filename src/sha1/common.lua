@@ -28,8 +28,13 @@ end
 
 -- unsigned 32 bit number (like bit.bxor returns) to hex
 -- Derived with permission from https://github.com/mooreatv/MoLib/blob/master/MoLib.lua#L498
-local ML_ToHex = function (num)
-	local NumToHex = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"}
+local ML_ToHex = function (num, caps)
+   local NumToHex
+   if caps then
+      NumToHex = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"}
+   else
+      NumToHex = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"}
+   end
 	local r = {}
 	for x = 8, 1, -1 do
 	  local v = num % 16

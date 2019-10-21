@@ -12,7 +12,7 @@ local band = bit.band
 local bor = bit.bor
 local bxor = bit.bxor
 
--- bit.rol may not be defined in WoW - it's not documented in the Wiki:
+-- bit.rol is not defined in WoW - it's not documented in the Wiki, and verified not to exist in game:
 -- https://wow.gamepedia.com/Lua_functions#Bit_Functions
 ops.uint32_lrot = bit.rol or function(a, bits)
       local power = 2 ^ bits
