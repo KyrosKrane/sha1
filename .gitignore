@@ -2,5 +2,8 @@ luacov.stats.out
 luacov.report.out
 
 
+# WoW build files
+.release/
+
 # backup files
 *.bak
