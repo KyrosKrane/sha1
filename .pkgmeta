@@ -9,7 +9,7 @@ ignore:
   - spec
 
 move-folders:
-  src/sha1: .
+  src/sha1: LibSHA1-1.0
  
 externals:
   # Prereqs
