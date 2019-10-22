@@ -1,3 +1,6 @@
+# This file should only be used to load the library for validation and benchmarking!
+# For use as a library, just load the LibSHA1-1.0.xml file.
+
 ## Interface: 80205
 ## Title: SHA1 Test Harness
 ## Version: v1
@@ -8,13 +11,10 @@
 LibStub\LibStub.lua
 
 # In this library
-Create-Lib.lua
-common.lua
-wow_bit_ops.lua
-init.lua
+LibSHA1-1.0.xml
 
 # Test harness executable
-test-harness.lua
+WoW_Tests\test-harness.lua
 
 # Benchmarking functions
-benchmark.lua
+WoW_Tests\benchmark.lua
