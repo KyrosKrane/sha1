@@ -1,11 +1,13 @@
-DebugPrint("Starting common.lua")
-
 local sha1
+-- Check whether we're in World of Warcraft or not.
 if WOW_PROJECT_ID then
-   sha1 = LibStub("sha1")
-   if not sha1 or sha1.common then return end
+   assert(LibStub, "LibStub is not loaded")
+   sha1 = LibStub("LibSHA1")
+   assert(sha1, "LibSHA1 is not initialized. Please load using the LibSHA1.xml file (for use as a library) or LibSHA1.toc (if validating and benchmarking).")
+   -- Check if this file has already been processed
+   if sha1.common then return end
 end
-DebugPrint("Creating common functions")
+sha1.DebugPrint("Creating common functions")
 
 local common = {}
 
@@ -60,4 +62,4 @@ if WOW_PROJECT_ID then
 else
    return common
 end
-DebugPrint("At end of common.lua")
+sha1.DebugPrint("At end of common.lua")

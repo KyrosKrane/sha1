@@ -1,23 +1,23 @@
-DebugPrint("Starting test-harness.lua")
-local addonName, addonTable = ...
-
 assert(LibStub, "LibStub is not loaded")
-local sha1 = LibStub("sha1")
-assert(sha1, "sha1 is not loaded")
+local sha1 = LibStub("LibSHA1")
+assert(sha1, "LibSHA1 is not initialized. Please load using the LibSHA1.xml file (for use as a library) or LibSHA1.toc (if validating and benchmarking).")
 
-DebugPrint("after Libstub call, sha1 is ", sha1)
+sha1.DebugPrint("Starting test-harness.lua")
+sha1.DebugPrint("after Libstub call, sha1 is ", sha1)
+
 
 -- Existence and identity tests
 local function IdentityTests()
-    DebugPrint("Starting IdentityTests suite")
+    sha1.DebugPrint("Starting IdentityTests suite")
     assert(sha1("") == sha1.sha1(""), "sha1 is NOT an alias for sha1.sha1")
     assert(string.match(sha1.version, "^%d+%.%d+%.%d+$"), "version is NOT a version string in MAJOR.MINOR.PATCH format")
-    DebugPrint("Completed IdentityTests suite")
+    sha1.DebugPrint("Completed IdentityTests suite")
 end
+
 
 -- String functionality tests
 local function BasicTests()
-    DebugPrint("Starting BasicTests suite")
+    sha1.DebugPrint("Starting BasicTests suite")
     assert("da39a3ee5e6b4b0d3255bfef95601890afd80709" == sha1.sha1(""), "fails basic test 1")
     assert("bb2fa3ee7afb9f54c6dfb5d021f14b1ffe40c163" == sha1.sha1(("x"):rep(64)), "fails basic test 2")
     assert("cef734ba81a024479e09eb5a75b6ddae62e6abf1" == sha1.sha1(("x"):rep(55)), "fails basic test 3")
@@ -27,12 +27,12 @@ local function BasicTests()
     assert("84983e441c3bd26ebaae4aa1f95129e5e54670f1" == sha1.sha1("abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq"), "fails basic test 7")
     assert("2fd4e1c67a2d28fced849ee1bb76e7391b93eb12" == sha1.sha1("The quick brown fox jumps over the lazy dog"), "fails basic test 8")
     assert("de9f2c7fd25e1b3afad3e85a0bd17d9b100db4b3" == sha1.sha1("The quick brown fox jumps over the lazy cog"), "fails basic test 9")
-    DebugPrint("Completed BasicTests suite")
+    sha1.DebugPrint("Completed BasicTests suite")
 end
 
 
 local function RandomTests()
-    DebugPrint("Starting RandomTests suite")
+    sha1.DebugPrint("Starting RandomTests suite")
     assert("efb750130b6cc9adf4be219435e575442ec68b7c" == sha1.sha1(string.char(136,43,218,202,158,86,64,140,154,173,20,184,170,125,37,54,208,68,171,24,164,89,142,111,148,235,187,181,122):rep(76)), "Fails random test 1")
     assert("432dff9d4023e13194170287103d0377ed182d96" == sha1.sha1(string.char(20,174):rep(407)), "Fails random test 2")
     assert("ccba5c47946530726bb86034dbee1dbf0c203e99" == sha1.sha1(string.char(20,54,149,252,176,4,96,100,223):rep(753)), "Fails random test 3")
@@ -126,30 +126,28 @@ local function RandomTests()
     assert("98a9dd7b57418937cbd42f758baac4754d5a4a4b" == sha1.sha1(string.char(115,121,91,76,175,110,149,190,56,178,191,157,101,220,190,251,62,41,190,37):rep(879)), "Fails random test 91")
     assert("578487979de082f69e657d165df5031f1fa84030" == sha1.sha1(string.char(189,240,198,207,102,142,241,154):rep(684)), "Fails random test 92")
     assert("3e6667b40afb6bcc052654dd64a653ad4b4f9689" == sha1.sha1(string.char(85,82,55,80,43,17,57,20,157,10,148,85,154,58,254,254,221,132,53,105,43,234,251,110,111):rep(712)), "Fails random test 93")
-    DebugPrint("Completed RandomTests suite")
+    sha1.DebugPrint("Completed RandomTests suite")
 end
 
 
-
 local function BinaryTests()
-    DebugPrint("Starting BinaryTests suite")
+    sha1.DebugPrint("Starting BinaryTests suite")
     assert("\218\57\163\238\94\107\75\13\50\85\191\239\149\96\24\144\175\216\7\9" == sha1.binary(""), "fails binary test 1")
-    DebugPrint("Completed BinaryTests suite")
+    sha1.DebugPrint("Completed BinaryTests suite")
 end
 
 
 local function HMACBasicTests()
-    DebugPrint("Starting HMACBasicTests suite")
+    sha1.DebugPrint("Starting HMACBasicTests suite")
     assert("31285f3fa3c6a086d030cf0f06b07e7a96b5cbd0" == sha1.hmac("63xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "data"), "fails HMAC test 1")
     assert("2d183212abc09247e21282d366eeb14d0bc41fb4" == sha1.hmac("64xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "data"), "fails HMAC test 2")
     assert("ff825333e64e696fc13d82c19071fa46dc94a066" == sha1.hmac("65xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "data"), "fails HMAC test 3")
-    DebugPrint("Completed HMACBasicTests suite")
+    sha1.DebugPrint("Completed HMACBasicTests suite")
 end
 
 
-
 local function HMACRandomTests()
-    DebugPrint("Starting HMACRandomTests suite")
+    sha1.DebugPrint("Starting HMACRandomTests suite")
 
     assert("ecc8b5d3abb5182d3d570a6f060fef2ee6c11a44" == sha1.hmac(string.char(220,58,17,206,77,234,240,187,69,25,179,182,186,38,57,83,120,107,198,148,234,246,46,96,83,28,231,89,3,169,42,62,125,235,137),string.char(1,225,98,83,100,71,237,241,239,170,244,215,3,254,14,24,216,66,69,30,124,126,96,177,241,20,44,3,92,111,243,169,100,119,198,167,146,242,30,124,7,22,251,52,235,95,211,145,56,204,236,37,107,139,17,184,65,207,245,101,241,12,50,149,19,118,208,133,198,33,80,94,87,133,146,202,27,89,201,218,171,206,21,191,43,77,127,30,187,194,166,39,191,208,42,167,77,202,186,225,4,86,218,237,157,117,175,106,63,166,132,136,153,243,187)), "fails HMAC random test 1")
     assert("bd1577a9417d804ee2969636fa9dde838beb967d" == sha1.hmac(string.char(216,76,38,50,235,99,92,110,245,5,134,195,113,7),string.char(144,3,250,84,145,227,206,87,188,42,169,182,106,31,207,205,33,76,52,158,255,49,129,169,9,145,203,225,90,228,163,33,49,99,29,135,60,112,152,5,200,121,35,77,56,116,68,109,190,136,184,248,144,172,47,107,30,16,105,232,146,137,24,81,245,94,28,76,27,82,105,146,252,219,119,164,21,14,74,192,209,208,156,56,172,124,89,218,51,108,44,174,193,161,228,147,219,129,172,210,248,239,22,11,62,128,1,50,98,233,141,224,102,152,44,68,66,46,210,114,138,113,121,90,7,70,125,191,192,222,225,200,217,48,22,10,132,29,236,71,108,140,102,96,51,142,51,220,4)), "fails HMAC random test 2")
@@ -249,42 +247,35 @@ local function HMACRandomTests()
     assert("b7efbbc21ac1a746e22368e814ef5921056331ac" == sha1.hmac(string.char(137,153,151,252,88,36,165,92,194,50,19,117),string.char(155,113,35,47,22,52,144,77,130,20,178,133,75,207,168,146,132,209,160,7,123,190,117,196,147,212,142,25,182,222,56,249,192,228,6,224,250,221,89,7,176,27,37,49,215,192,74,132,127,101,32,23,34,131,23,74,37,226,208,205,162,242,102)), "fails HMAC random test 96")
     assert("950ad3222f4917f868d09feab237a909fb6d50b7" == sha1.hmac(string.char(78,46,85,132,231,4,243,255,22,45,240,155,151,119,94,213,50,111,10,83,40,204,49,52,17,69,132,44,213,83,54,251,211,159,123,55,17,58,162,170,210,3,35,237,165,181,217,27,7,249,158,22,158,207,77,121,37,63,37,39,204,68,99,158,78,175,73,183,47,99,134,65,74,234,154,33,14,117,126,98,167,242,106,112,145,82),string.char(144,133,184,16,9,8,227,98,190,60,141,255,87,69,63,214,12,67,14,206,32,120,59,232,176,82,32,194,115,52,148,143,126,86,82,101,167,249,17,169,9,105,228)), "fails HMAC random test 97")
 
-    DebugPrint("Completed HMACRandomTests suite")
+    sha1.DebugPrint("Completed HMACRandomTests suite")
 end
-
 
 
 local function HMACBinaryTests()
-    DebugPrint("Starting HMACBinaryTests suite")
+    sha1.DebugPrint("Starting HMACBinaryTests suite")
     assert("\49\40\95\63\163\198\160\134\208\48\207\15\6\176\126\122\150\181\203\208" == sha1.hmac_binary("63xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "data"), "fails HMAC binary test 1")
-    DebugPrint("Completed HMACBinaryTests suite")
+    sha1.DebugPrint("Completed HMACBinaryTests suite")
 end
 
 
-
-
 local function RunSha1Tests()
-    DebugPrint("Starting comprehensive test suite")
+    sha1.DebugPrint("Starting comprehensive test suite")
 
     IdentityTests()
+
     BasicTests()
     RandomTests()
     BinaryTests()
+
     HMACBasicTests()
     HMACRandomTests()
     HMACBinaryTests()
 
-    DebugPrint("All tests complete. Failed tests will be reported as WoW Lua errors.")
+    sha1.DebugPrint("All tests complete. Failed tests will be reported as WoW Lua errors.")
 end
 
 
-
 -- Create a sample slash command to test the addon.
-SLASH_SHA1 = "/sha"
-SlashCmdList.SHA = function (...) RunSha1Tests() end
-DebugPrint("Ending test-harness.lua")
-
-
-
-
-
+SLASH_SHATEST1 = "/shatest"
+SlashCmdList.SHATEST = function (...) RunSha1Tests() end
+sha1.DebugPrint("Ending test-harness.lua")

@@ -1,18 +1,17 @@
-DebugPrint("Starting init.lua")
-
 local sha1, common, ops
 
 -- Check whether we're in World of Warcraft or not.
 if WOW_PROJECT_ID then
    -- The library is created via the Create-Lib file, and common functions are loaded already.
-   sha1 = LibStub("sha1")
-   if not sha1 or sha1.sha1 then return end
+   assert(LibStub, "LibStub is not loaded")
+   sha1 = LibStub("LibSHA1")
+   assert(sha1, "LibSHA1 is not initialized. Please load using the LibSHA1.xml file (for use as a library) or LibSHA1.toc (if validating and benchmarking).")
    common = sha1.common
 else
 	sha1 = {}
    common = require "sha1.common"
 end
-DebugPrint("in init.lua, sha1 is valid, proceeding")
+sha1.DebugPrint("in init.lua, sha1 is valid, proceeding")
 
 
 -- Meta fields retained for compatibility.
@@ -54,7 +53,10 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.]]
 sha1.version = "0.6.0"
 
 
-if not WOW_PROJECT_ID then
+if WOW_PROJECT_ID then
+   -- WoW ops are already loaded via a prior file
+   ops = sha1.ops
+else
    local function choose_ops()
       if _VERSION:find("5%.3") then
          return "lua53_ops"
@@ -68,9 +70,6 @@ if not WOW_PROJECT_ID then
    end -- choose_ops()
 
    ops = require("sha1." .. choose_ops())
-else
-   -- WoW ops are already loaded via a prior file
-   ops = sha1.ops
 end -- if
 
 local uint32_lrot = ops.uint32_lrot
@@ -94,7 +93,7 @@ local function hex_to_binary(hex)
    end))
 end
 
-DebugPrint("reached point of creating sha1()")
+sha1.DebugPrint("reached point of creating sha1()")
 
 -- Calculates SHA1 for a string, returns it encoded as 40 hexadecimal digits.
 function sha1.sha1(str)
@@ -182,7 +181,7 @@ function sha1.sha1(str)
 
    return sformat("%s%s%s%s%s", common.w32_to_hexstring(h0), common.w32_to_hexstring(h1), common.w32_to_hexstring(h2), common.w32_to_hexstring(h3), common.w32_to_hexstring(h4))
 end
-DebugPrint("after creating sha1()")
+sha1.DebugPrint("after creating sha1()")
 
 
 function sha1.binary(str)
@@ -222,4 +221,4 @@ if not WOW_PROJECT_ID then
    -- The setmetatable call seems to throw WoW off, so restrict it to the non-WoW environment
    return sha1
 end
-DebugPrint("At end of init.lua")
+sha1.DebugPrint("At end of init.lua")

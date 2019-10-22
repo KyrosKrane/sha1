@@ -7,9 +7,6 @@
 # Externals
 LibStub\LibStub.lua
 
-# Debug only
-debug.lua
-
 # In this library
 Create-Lib.lua
 common.lua
@@ -18,3 +15,6 @@ init.lua
 
 # Test harness executable
 test-harness.lua
+
+# Benchmarking functions
+benchmark.lua

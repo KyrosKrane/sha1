@@ -1,8 +1,13 @@
-DebugPrint("Starting wow-bit-ops.lua")
+-- This file is WoW exclusive, so no need for WoW versus non-WoW tests
 
-sha1 = LibStub("sha1")
-if not sha1 or sha1.ops then return end
-DebugPrint("Creatig ops")
+assert(LibStub, "LibStub is not loaded")
+local sha1 = LibStub("LibSHA1")
+assert(sha1, "LibSHA1 is not initialized. Please load using the LibSHA1.xml file (for use as a library) or LibSHA1.toc (if validating and benchmarking).")
+
+-- Check if this file has already been processed
+if sha1.ops then return end
+
+sha1.DebugPrint("Starting wow-bit-ops.lua")
 
 local bit = bit
 
@@ -34,5 +39,6 @@ function ops.uint32_majority(a, b, c)
    return bor(band(a, bor(b, c)), band(b, c))
 end
 
+-- This file is only used for WoW, so no need to return as a general Lua module
 sha1.ops = ops
-DebugPrint("Ending wow-bit-ops.lua")
+sha1.DebugPrint("Ending wow-bit-ops.lua")
