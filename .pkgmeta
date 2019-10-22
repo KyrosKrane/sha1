@@ -5,7 +5,7 @@ enable-nolib-creation: yes
 ignore:
   - *.md
   - *.rockspec
-  - ./*.lua
+  - *.lua
   - spec
 
 move-folders:
