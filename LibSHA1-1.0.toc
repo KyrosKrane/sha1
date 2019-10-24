@@ -1,5 +1,5 @@
 # This TOC file should only be used to load the library for validation and benchmarking!
-# For use as a library, just load the LibSHA1-1.0.xml file.
+# For use as a library, just load LibStub and the LibSHA1-1.0.xml file.
 
 ## Interface: 80205
 ## Title: LibSHA1-1.0 Test Harness

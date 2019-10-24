@@ -218,7 +218,6 @@ end
 setmetatable(sha1, {__call = function(_, str) return sha1.sha1(str) end})
 
 if not WOW_PROJECT_ID then
-   -- The setmetatable call seems to throw WoW off, so restrict it to the non-WoW environment
    return sha1
 end
 sha1.DebugPrint("At end of init.lua")
