@@ -3,13 +3,14 @@ enable-nolib-creation: yes
 
 # Files and directories beginning with a dot (such as .git) are automatically ignored, as is the pgkmeta file itself.
 ignore:
-  - *.md
+  - README.md
   - *.rockspec
-  - *.lua
+  - bench.lua
   - spec
+  - LibStub/tests
 
 move-folders:
-  src/sha1: LibSHA1-1.0
+  LibSHA1-1.0/src/sha1: LibSHA1-1.0
  
 externals:
   # Prereqs
