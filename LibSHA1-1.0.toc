@@ -14,7 +14,7 @@ LibStub\LibStub.lua
 LibSHA1-1.0.xml
 
 # Test harness executable
-WoW_Tests\test-harness.lua
+WoW_Tests\validation.lua
 
 # Benchmarking functions
 WoW_Tests\benchmark.lua
