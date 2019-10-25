@@ -3,10 +3,20 @@ enable-nolib-creation: yes
 
 # Files and directories beginning with a dot (such as .git) are automatically ignored, as is the pgkmeta file itself.
 ignore:
+
+  # Documentation and test setup files
   - README.md
   - *.rockspec
   - bench.lua
   - spec
+
+  # Files not used in WoW
+  - src/sha1/pure_lua_ops.lua
+  - src/sha1/lua53_ops.lua
+  - src/sha1/bit32_ops.lua
+  - src/sha1/bit_ops.lua
+
+  # Unneeded files in packaged dependencies
   - LibStub/tests
 
 move-folders:
