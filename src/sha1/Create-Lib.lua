@@ -11,9 +11,6 @@ if not sha1 then return end
 
 -- Set up debug functions and code
 sha1.DEBUGMODE = false
---@alpha@
-sha1.DEBUGMODE = true
---@end-alpha@
 
 
 function sha1.DebugPrint(...)
